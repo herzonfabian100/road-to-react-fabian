@@ -1,8 +1,71 @@
 
 import * as React from 'react';
 
+function App() {
 
-function List(props) {
+  const stories = [
+    {
+      title: 'React',
+      url: 'https://reactjs.org/',
+      author: 'Jordan Walke',
+      num_comments: 3,
+      points: 4,
+      objectID: 0,
+    },
+    {
+      title: 'Redux',
+      url: 'https://redux.js.org/',
+      author: 'Dan Abramov, Andrew Clark',
+      num_comments: 2,
+      points: 5,
+      objectID: 1,
+    },
+  ];
+  const handleSearch = (event) => {
+    console.log(event.target.value);
+  }
+
+  return (
+    <div>
+      <h1> My Hacker Story</h1>
+
+      <Search onSearch={handleSearch} />
+
+      <hr />
+      <List list={stories} />
+
+
+    </div >
+
+  );
+}
+
+const Search = (props) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  console.log(`Rendering Search with searchTerm ${searchTerm}`);
+
+  const handleChange = (event) => {
+    console.log(`Before Setting searchTerm: ${searchTerm}`);
+    setSearchTerm(event.target.value)
+    console.log(event.target.value);
+    console.log(`After Setting searchTerm: ${searchTerm}`);
+    props.onSearch(event);
+  }
+  const handleMouseOver = (event) => {
+    console.log(event);
+  }
+
+  return (
+    <div>
+      <label htmlFor="sarch">Search:</label>
+      <input id="search" type="text" onChange={handleChange} onMouseOver={handleMouseOver} />
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
+    </div>
+  );
+}
+const List = (props) => {
   return (
 
     <ul>
@@ -27,60 +90,6 @@ const Item = (props) => {
       <span>{item.num_comments}</span>
       <span>{item.points}</span>
     </li>
-  );
-}
-
-function Search() {
-
-  const handleChange = (event) => {
-    console.log(event);
-  }
-  const handleMouseOver = (event) => {
-    console.log(event);
-  }
-
-  return (
-    <div>
-      <label htmlFor="sarch">Search:</label>
-      <input id="search" type="text" onChange={handleChange} onMouseOver={handleMouseOver} />
-    </div>
-  );
-}
-
-function App() {
-
-  const stories = [
-    {
-      title: 'React',
-      url: 'https://reactjs.org/',
-      author: 'Jordan Walke',
-      num_comments: 3,
-      points: 4,
-      objectID: 0,
-    },
-    {
-      title: 'Redux',
-      url: 'https://redux.js.org/',
-      author: 'Dan Abramov, Andrew Clark',
-      num_comments: 2,
-      points: 5,
-      objectID: 1,
-    },
-  ];
-
-
-  return (
-    <div>
-      <h1> My Hacker Story</h1>
-
-      <Search />
-
-      <hr />
-      <List list={stories} />
-
-
-    </div >
-
   );
 }
 
