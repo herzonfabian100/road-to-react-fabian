@@ -21,18 +21,23 @@ function App() {
       objectID: 1,
     },
   ];
+  const [searchTerm, setSearchTerm] = React.useState('');
   const handleSearch = (event) => {
     console.log(event.target.value);
+    setSearchTerm(event.target.value);
   }
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
       <h1> My Hacker Story</h1>
 
-      <Search onSearch={handleSearch} />
+      <Search onSearch={handleSearch} searchTerm={searchTerm} />
 
       <hr />
-      <List list={stories} />
+      <List list={searchedStories} />
 
 
     </div >
@@ -41,14 +46,7 @@ function App() {
 }
 
 const Search = (props) => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  console.log(`Rendering Search with searchTerm ${searchTerm}`);
-
   const handleChange = (event) => {
-    console.log(`Before Setting searchTerm: ${searchTerm}`);
-    setSearchTerm(event.target.value)
-    console.log(event.target.value);
-    console.log(`After Setting searchTerm: ${searchTerm}`);
     props.onSearch(event);
   }
   const handleMouseOver = (event) => {
@@ -60,7 +58,7 @@ const Search = (props) => {
       <label htmlFor="sarch">Search:</label>
       <input id="search" type="text" onChange={handleChange} onMouseOver={handleMouseOver} />
       <p>
-        Searching for <strong>{searchTerm}</strong>
+        Searching for <strong>{props.searchTerm}</strong>
       </p>
     </div>
   );
